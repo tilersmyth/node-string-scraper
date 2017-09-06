@@ -1,0 +1,38 @@
+{
+  "name": "string-scraper",
+  "version": "1.0.0",
+  "description": "Check if string exists on page of provided URL",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "mocha -r ts-node/register dist/**/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tilersmyth/node-string-scraper.git"
+  },
+  "author": "Tyler Smith <tilersmyth@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tilersmyth/node-string-scraper/issues"
+  },
+  "homepage": "https://github.com/tilersmyth/node-string-scraper#readme",
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.42",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {
+    "@types/cheerio": "^0.22.2",
+    "@types/request": "^2.0.3",
+    "@types/request-promise": "^4.1.37",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}
