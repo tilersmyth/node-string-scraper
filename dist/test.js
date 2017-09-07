@@ -4,8 +4,8 @@ var index_1 = require("./index");
 var chai_1 = require("chai");
 describe('Scrape function', function () {
     //Test variables
-    var sampleUrl = 'http://www.example.com/';
-    var trueString = 'This domain is established to be used for illustrative examples in documents.';
+    var sampleUrl = 'https://www.boston.com/weather/national-news/2017/09/06/here-are-4-maps-that-show-hurricane-irmas-path';
+    var trueString = 'Hurricane Irma tore through the Caribbean on Wednesday';
     var falseString = 'This string does not exist on example.com';
     var badUrl = 'http://urldoesnotexist.com/';
     it('string exists on page of provided url', function () {
@@ -35,7 +35,6 @@ describe('Scrape function', function () {
     it('should throw character count error', function () {
         return index_1.stringScraper(sampleUrl, trueString, 100)
             .catch(function (err) {
-            console.log(err);
             chai_1.expect(err).to.equal('Error: String must exceed 100 characters');
         });
     });

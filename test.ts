@@ -4,8 +4,8 @@ import { expect } from 'chai';
 describe('Scrape function', () => {
 
   //Test variables
-  const sampleUrl = 'http://www.example.com/';
-  const trueString = 'This domain is established to be used for illustrative examples in documents.';
+  const sampleUrl = 'https://www.boston.com/weather/national-news/2017/09/06/here-are-4-maps-that-show-hurricane-irmas-path';
+  const trueString = 'Hurricane Irma tore through the Caribbean on Wednesday';
   const falseString = 'This string does not exist on example.com';
   const badUrl = 'http://urldoesnotexist.com/';
 
