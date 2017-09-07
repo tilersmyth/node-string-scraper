@@ -1,1 +1,1 @@
-export declare function stringScrape(url: string, string: string, charLimit: number): any;
+export declare function stringScraper(url: string, string: string, charLimit: number): any;

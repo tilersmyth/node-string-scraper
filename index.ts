@@ -1,7 +1,7 @@
 import * as rp from 'request-promise';
 import * as cheerio from 'cheerio';
 
-export function stringScrape(url: string, string: string, charLimit: number):any {
+export function stringScraper(url: string, string: string, charLimit: number):any {
 
    return rp(url)
     .then((html) => {

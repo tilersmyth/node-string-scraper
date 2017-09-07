@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-//import * as request from 'request';
 var rp = require("request-promise");
 var cheerio = require("cheerio");
-function stringScrape(url, string, charLimit) {
+function stringScraper(url, string, charLimit) {
     return rp(url)
         .then(function (html) {
+        // Validate parameter types
         if (typeof url !== 'string' || typeof string !== 'string') {
-            throw new Error('Parameter type error');
+            throw 'Error: Parameter type error';
         }
+        // Validate character limit defined by param
         if (string.length < charLimit) {
             throw 'Error: String must exceed ' + charLimit + ' characters';
         }
@@ -20,4 +21,4 @@ function stringScrape(url, string, charLimit) {
         throw err;
     });
 }
-exports.stringScrape = stringScrape;
+exports.stringScraper = stringScraper;

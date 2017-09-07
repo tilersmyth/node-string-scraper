@@ -9,7 +9,7 @@ const url = 'http://www.example.com/';
 const string = 'This domain is established to be used for illustrative examples in documents.';
 const charMin = 50;
 
-stringScrape(url, string, charMin)
+stringScraper(url, string, charMin)
     .then((result) => {
         return result;
     })
