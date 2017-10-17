@@ -18,10 +18,13 @@ export function stringScraper(url: string, string: string, charLimit: number) : 
     // Fire up node-persist, TTL: 5 min
     storage.initSync({ttl: 2 * 60 * 5000});
 
+    //Remove white space from string
+    const trimString = string.replace(/\s+/g, '');
+
     // Use Cached results if available
-    const existingUrl = storage.getItemSync(url);
-    if(existingUrl){
-        return Promise.resolve(existingUrl.includes(string));
+    const existingScrape = storage.getItemSync(url);
+    if(existingScrape){
+        return Promise.resolve(existingScrape.includes(trimString));
     }
 
     return rp(url)
@@ -29,13 +32,14 @@ export function stringScraper(url: string, string: string, charLimit: number) : 
             
             // Get HTML body content using Cheerio
             const $ = cheerio.load(html);
-            const text = $('body').text();
+            const scrape = $('body').text();
+            const trimScrape = scrape.replace(/\s+/g, '');
 
             // Cache scrape results with url as key
-            storage.setItemSync(url, text);
+            storage.setItemSync(url, trimScrape);
 
             // Return boolean
-            return text.includes(string);
+            return trimScrape.includes(trimString);
             
         })
         .catch((err) => {
