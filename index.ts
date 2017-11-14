@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 import * as storage from 'node-persist';
 import * as Promise from 'bluebird';
 
-export function stringScraper(url: string, string: string, charLimit: number) : Promise<any> {
+export function stringScraper(url: string, string: string, identifier: string, charLimit: number, cache: boolean) : Promise<any> { 
 
     // Validate parameter types
     if (typeof url !== 'string' || typeof string !== 'string') {
@@ -15,16 +15,21 @@ export function stringScraper(url: string, string: string, charLimit: number) : 
         return Promise.reject('Error: String must exceed ' + charLimit + ' characters');
     }
 
-    // Fire up node-persist, TTL: 5 min
-    storage.initSync({ttl: 2 * 60 * 5000});
-
-    //Remove white space from string
+    // Remove white space from string
     const trimString = string.replace(/\s+/g, '');
 
-    // Use Cached results if available
-    const existingScrape = storage.getItemSync(url);
-    if(existingScrape){
-        return Promise.resolve(existingScrape.includes(trimString));
+    //If cache option is truthy
+    if(cache){
+
+        // Fire up node-persist, TTL: 5 min
+        storage.initSync({ttl: 2 * 60 * 5000});
+
+        // Use Cached results if available
+        const existingScrape = storage.getItemSync(url);
+        if(existingScrape){
+            return Promise.resolve(existingScrape.includes(trimString));
+        }
+
     }
 
     return rp(url)
@@ -32,11 +37,22 @@ export function stringScraper(url: string, string: string, charLimit: number) : 
             
             // Get HTML body content using Cheerio
             const $ = cheerio.load(html);
-            const scrape = $('body').text();
+
+            //Identifier not found on page
+            if($('html').find(identifier).length === 0){
+                //throw new Error('not_found');
+                let error = new Error('Identifier used to find content not found.')
+                error.name = 'not_found';
+                throw error;
+            }
+
+            const scrape = $(identifier).text();
             const trimScrape = scrape.replace(/\s+/g, '');
 
             // Cache scrape results with url as key
-            storage.setItemSync(url, trimScrape);
+            if(cache){
+                storage.setItemSync(url, trimScrape);
+            }
 
             // Return boolean
             return trimScrape.includes(trimString);
