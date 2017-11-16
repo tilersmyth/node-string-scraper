@@ -9,7 +9,7 @@ describe('Scrape function', function () {
     var falseString = 'This string does not exist on example.com';
     var badUrl = 'http://urldoesnotexist.com/';
     it('string exists on page of provided url', function () {
-        return index_1.stringScraper(sampleUrl, trueString, 'body', 1, false)
+        return index_1.stringScraper(sampleUrl, trueString, 'article', 1, false)
             .then(function (result) {
             chai_1.expect(result).be.true;
         })
@@ -18,7 +18,7 @@ describe('Scrape function', function () {
         });
     });
     it('string does not exist on page of provided url', function () {
-        return index_1.stringScraper(sampleUrl, falseString, 'body', 1, false)
+        return index_1.stringScraper(sampleUrl, falseString, 'article', 1, false)
             .then(function (result) {
             chai_1.expect(result).be.false;
         })
@@ -27,15 +27,15 @@ describe('Scrape function', function () {
         });
     });
     it('should throw invalid url error', function () {
-        return index_1.stringScraper(badUrl, trueString, 'body', 1, false)
+        return index_1.stringScraper(badUrl, trueString, 'article', 1, false)
             .catch(function (err) {
-            chai_1.expect(err.error.code).to.equal('ENOTFOUND');
+            chai_1.expect(err).to.throw;
         });
     });
     it('should throw character count error', function () {
-        return index_1.stringScraper(sampleUrl, trueString, 'body', 100, false)
+        return index_1.stringScraper(sampleUrl, trueString, 'article', 100, false)
             .catch(function (err) {
-            chai_1.expect(err).to.equal('Error: String must exceed 100 characters');
+            chai_1.expect(err).to.throw;
         });
     });
 });

@@ -6,13 +6,14 @@ import * as Promise from 'bluebird';
 export function stringScraper(url: string, string: string, identifier: string, charLimit: number, cache: boolean) : Promise<any> { 
 
     // Validate parameter types
-    if (typeof url !== 'string' || typeof string !== 'string') {
-        return Promise.reject('Parameter type error');
+    if (typeof url !== 'string' || typeof string !== 'string' || typeof identifier !== 'string' || typeof charLimit !== 'number' || typeof cache !== 'boolean') {
+        return Promise.reject(new Error('Parameter type error'));
     }
     
     // Validate character limit defined by param
     if (string.length < charLimit){
-        return Promise.reject('Error: String must exceed ' + charLimit + ' characters');
+        return Promise.reject(new Error('String must exceed ' + charLimit + ' characters'));
+
     }
 
     // Remove white space from string
@@ -40,10 +41,7 @@ export function stringScraper(url: string, string: string, identifier: string, c
 
             //Identifier not found on page
             if($('html').find(identifier).length === 0){
-                //throw new Error('not_found');
-                let error = new Error('Identifier used to find content not found.')
-                error.name = 'not_found';
-                throw error;
+                throw new Error('Identifier used to find content not found in page of provided url.')
             }
 
             const scrape = $(identifier).text();
@@ -59,7 +57,7 @@ export function stringScraper(url: string, string: string, identifier: string, c
             
         })
         .catch((err) => {
-            throw err;
+            throw new Error(err)
         });
    
 }
